@@ -18,11 +18,30 @@ makeCacheMatrix <- function(x = matrix()) {
     list(set=set, get=get, setInverseMx=setInverseMx, getInverseMx=getInverseMx)
 }
 
-
 ## The following function caches the inverse of a matrix.
 ## Like the cachemean example and the cachmean example,
 ## the 1st funcion checks to see if the matrix is in cache.
 ## If it is already, otherwise it is calculated and set in cache.
+
+cacheSolve <- function(x, ...) {  
+  
+  inMx = x$getInverseMx()
+  
+## if the inverse has already been calculated
+if (!is.null(inMx)){
+                # get it from the cache and skips the computation. 
+                message("getting cached data")
+                return(inMx)
+        }
+## otherwise calc inverse
+      
+    data <- x$get()
+    inMx <- solve(data)
+    x$setinverse(inMx) 
+    inMx
+  }  
+    
+## Proof
 
 x = rbind(c(1, -1/4), c(-1/4, 1))
 inMx = makeCacheMatrix(x)
